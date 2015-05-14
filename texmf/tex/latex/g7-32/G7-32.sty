@@ -93,6 +93,10 @@
  \CYRN\CYRI\CYRR%
 }
 
+\newcommand\Nir@MainRuk{%
+ \CYRR\cyru\cyrk\cyro\cyrv\cyro\cyrd\cyri\cyrt\cyre\cyrl\cyrsftsn{} %
+}
+
 \newcommand\Nir@OrgLongName{%
  \CYRP\cyro\cyrl\cyrn\cyro\cyre~
  \cyrn\cyra\cyrz\cyrv\cyra\cyrn\cyri\cyre~
@@ -122,6 +126,8 @@
 }
 
 \newcommand\Nir@ManagerName{\CYRI\cyrv\cyra\cyrn\cyro\cyrv}
+
+\newcommand\Lab@Student{\CYRF.~\CYRI.~\CYRO}
 
 % Титульный лист отчета о НИР
 \newcommand\NirTitle[1]{
@@ -163,29 +169,35 @@
   {\Nir@OrgLongName}
 
   \vfill
+  
+  % Кафедра
+  \CYRK\cyra\cyrf\cyre\cyrd\cyrr\cyra~
+  \cyrerev\cyrk\cyro\cyrn\cyro\cyrm\cyri\cyrch\cyre\cyrs\cyrk\cyro\cyrishrt~
+  \cyri\cyrn\cyrf\cyro\cyrr\cyrm\cyra\cyrt\cyri\cyrk\cyri
+  
+  \vfill
 
   \Nir@JobName~\cyrp\cyro~\cyrd\cyri\cyrs\cyrc\cyri\cyrp\cyrl\cyri\cyrn\cyre
 
   <<\Nir@Discipline>>
-
-  \Nir@JobSubject
-
   
+  \bigskip
+  
+  \Nir@JobSubject
 
   \vfill
   \begin{tabular}{p{80mm}p{80mm}}
-    \Nir@MainBegin, \newline
-    \Nir@ManagerPost
+    \CYRF\cyra\cyrk\cyru\cyrl\cyrsftsn\cyrt\cyre\cyrt:
+    \cyrb\cyri\cyrz\cyrn\cyre\cyrs\cyra \newline
+    \CYRG\cyrr\cyru\cyrp\cyrp\cyra: \cyrz\CYRF\CYRB\CYRI\CYRM-41 \newline
+    \CYRS\cyrt\cyru\cyrd\cyre\cyrn\cyrt:
+    \CYRR\cyru\cyrm\cyrya\cyrn\cyrc\cyre\cyrv\cyra~\CYRE.~\CYRYU. \newline
+    \CYRV\cyra\cyrr\cyri\cyra\cyrn\cyrt:~2
    &
-    ~\newline\underline{~~~~~~~~~~~~~~~~~~~} \Nir@ManagerName \newline
+    ~\newline \CYRP\cyrr\cyre\cyrp\cyro\cyrd\cyra\cyrv\cyra\cyrt\cyre\cyrl\cyrsftsn:
+    \newline \Nir@ManagerPost
   \end{tabular}
 
-  \begin{tabular}{p{80mm}p{80mm}}
-    \Nir@MainBegin, \newline
-    \Nir@ManagerPost
-   &
-    ~\newline\underline{~~~~~~~~~~~~~~~~~~~} \Nir@ManagerName \newline
-  \end{tabular}
   \vfill
   \vfill
   \vfill
@@ -209,3 +221,7 @@
 \newcommand\NirJobName[1]{\renewcommand\Nir@JobName{#1}}
 \newcommand\NirDiscipline[1]{\renewcommand\Nir@Discipline{#1}}
 \newcommand\NirJobSubject[1]{\renewcommand\Nir@JobSubject{#1}}
+
+
+\newcommand\LabStudent[1]{\renewcommand\Lab@Student{#1}}
+
