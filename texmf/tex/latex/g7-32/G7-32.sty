@@ -103,6 +103,15 @@
  \cyro\cyrr\cyrg\cyra\cyrn\cyri\cyrz\cyra\cyrc\cyri\cyri%
 }
 
+\newcommand\Nir@Kafedra{%
+ \CYRK\cyra\cyrf\cyre\cyrd\cyrr\cyra~
+ \cyrn\cyra\cyrz\cyrv\cyra\cyrn\cyri\cyre%
+}
+
+\newcommand\Nir@Variant{%
+ \CYRV\cyra\cyrr\cyri\cyra\cyrn\cyrt%
+}
+
 \newcommand\Nir@StageNo{ % номер этапа работ
 }
 
@@ -169,20 +178,17 @@
   {\Nir@OrgLongName}
 
   \vfill
-  
-  % Кафедра
-  \CYRK\cyra\cyrf\cyre\cyrd\cyrr\cyra~
-  \cyrerev\cyrk\cyro\cyrn\cyro\cyrm\cyri\cyrch\cyre\cyrs\cyrk\cyro\cyrishrt~
-  \cyri\cyrn\cyrf\cyro\cyrr\cyrm\cyra\cyrt\cyri\cyrk\cyri
-  
+
+  {\Nir@Kafedra}
+
   \vfill
 
   \Nir@JobName~\cyrp\cyro~\cyrd\cyri\cyrs\cyrc\cyri\cyrp\cyrl\cyri\cyrn\cyre
 
   <<\Nir@Discipline>>
-  
+
   \bigskip
-  
+
   \Nir@JobSubject
 
   \vfill
@@ -192,7 +198,7 @@
     \CYRG\cyrr\cyru\cyrp\cyrp\cyra: \cyrz\CYRF\CYRB\CYRI\CYRM-41 \newline
     \CYRS\cyrt\cyru\cyrd\cyre\cyrn\cyrt:
     \CYRR\cyru\cyrm\cyrya\cyrn\cyrc\cyre\cyrv\cyra~\CYRE.~\CYRYU. \newline
-    \CYRV\cyra\cyrr\cyri\cyra\cyrn\cyrt:~2
+    {\Nir@Variant}
    &
     ~\newline \CYRP\cyrr\cyre\cyrp\cyro\cyrd\cyra\cyrv\cyra\cyrt\cyre\cyrl\cyrsftsn:
     \newline \Nir@ManagerPost
@@ -211,6 +217,8 @@
 \newcommand\NirStage[3]{\renewcommand\Nir@StageNo{#1}\renewcommand\Nir@StageType{#2}\renewcommand\Nir@StageTitle{#3}}%%virens added: номер госрегистрации
 \newcommand\NirIsAnnotacion[1]{\renewcommand\Nir@AnnOtchet{#1}} %%Если отчёт аннотационный
 \newcommand\NirOrgLongName[1]{\renewcommand\Nir@OrgLongName{#1}}
+\newcommand\NirKafedra[1]{\renewcommand\Nir@Kafedra{#1}}
+\newcommand\NirVariant[1]{\renewcommand\Nir@Variant{#1}}
 \newcommand\NirBoss[2]{\renewcommand\Nir@BossPost{#1}\renewcommand\Nir@BossName{#2}}
 \newcommand\NirYear[1]{\renewcommand\Nir@Year{#1}}
 \newcommand\NirManager[2]{\renewcommand\Nir@ManagerPost{#1}\renewcommand\Nir@ManagerName{#2}}
@@ -224,4 +232,3 @@
 
 
 \newcommand\LabStudent[1]{\renewcommand\Lab@Student{#1}}
-
