@@ -83,6 +83,9 @@ ENTRY
     language
     booklanguage
     url
+    request %% дата запроса электронного ресурса
+    doi
+    where %% где опубликовано (город)
   }
   {}
   { label }
@@ -183,6 +186,7 @@ FUNCTION {new.block}
   if$
 }
 
+%% Добавляет двойной слеш
 FUNCTION {new.dblslash}
 { output.state before.all =
     'skip$
@@ -190,6 +194,7 @@ FUNCTION {new.dblslash}
   if$
 }
 
+%% Добавляет одинарный слеш
 FUNCTION {new.slash}
 { output.state before.all =
     'skip$
@@ -211,6 +216,7 @@ FUNCTION {new.semicolumn}
   if$
 }
 
+%% Добавляет точку
 FUNCTION {new.sentence}
 { output.state after.block =
     'skip$
@@ -222,6 +228,7 @@ FUNCTION {new.sentence}
   if$
 }
 
+// Добавляет пробел
 FUNCTION {add.blank}
 { " " * before.all 'output.state :=
 }
@@ -870,6 +877,14 @@ FUNCTION {format.number}
   if$
 }
 
+% Том и номер журнала
+FUNCTION {format.volumenumber}
+{ volume empty$
+    { "" }
+    { * bbl.vvol * "~" * volume  * "(" * number * ")" * }
+  if$
+}
+
 
 FUNCTION {empty.misc.check}
 { author empty$ title empty$ howpublished empty$
@@ -965,11 +980,42 @@ FUNCTION {editor.organization.after}
   if$
 }
 
+%% Вывод URL'а
 FUNCTION {format.url}
 { url empty$
     { "" }
     { after.sentence 'output.state :=
-      "\BibUrl{ " url * "}" *
+      "URL: \BibUrl{ " url * "}" *
+    }
+  if$
+}
+
+%% Вывод даты обращения к ресурсу
+FUNCTION {format.request}
+{ url empty$
+    { "" }
+    {
+      "(дата обращения: " request * ")" *
+    }
+  if$
+}
+
+%% Вывод DOI
+FUNCTION {format.doi}
+{ doi empty$
+    { "" }
+    { after.sentence 'output.state :=
+      * "\doi{" doi * "}" *
+    }
+  if$
+}
+
+%% Вывод города публикации
+FUNCTION {format.where}
+{ where empty$
+    { "" }
+    {
+      where * " :" *
     }
   if$
 }
@@ -985,19 +1031,24 @@ FUNCTION {format.annote}
 
 FUNCTION {article}
 { output.bibitem
-  author.before
+  author output
+  new.sentence
   format.btitle "title" output.check
-  new.slash
-  author.after
   new.dblslash
-  journal emphasize "journal" output.check
-  new.block
+  journal output
+  %%new.block
+  new.sentence
   format.date output
-  new.block
-  format.volume output
-  format.number output
-  new.block
+  new.sentence
+  %%
+  %%format.volume output
+  %%format.number output
+  format.volumenumber output
+  new.sentence
   format.pages.page output
+  new.sentence
+  format.pages.page output
+  format.doi output
   new.block
   note output
   new.sentence
@@ -1008,22 +1059,26 @@ FUNCTION {article}
 
 FUNCTION {book}
 { output.bibitem
-  author.before
-  format.btitle "title" output.check
-  new.slash
-  author.after
-  editor.organization.after
+  author output
+  new.sentence
+  title output
+  new.sentence
+  format.where output
+  %add.blank
+  publisher output
+  format.date output
   new.sentence
   format.number.series output
-  new.block
+  %new.block
   format.edition output
-  new.block
-  output.address.publisher.date
-  new.block
+  %new.block
+
+  %new.block
   format.bvolume output
-  new.block
+  %new.block
+  new.sentence
   format.pages.page output
-  new.block
+ % new.block
   note output
   new.sentence
   format.url output
@@ -1108,36 +1163,39 @@ FUNCTION {incollection}
 
 FUNCTION {inproceedings}
 { output.bibitem
-  author.before
+  author output
   new.sentence
-  format.title "title" output.check
-  new.slash
-  author.after
+  title output
   new.dblslash
   booktitle "booktitle" output.check
   new.slash
   editor.organization.after
-  new.block
+  new.sentence
   format.bvolume output
   format.number.series output
-  new.block
+  new.slash
   address empty$
     { publisher output
+      new.sentence
       format.date "year" output.check
     }
     { address output.nonnull
-      new.column
+      add.blank
+      ":" output
+      add.blank
       publisher output
+      new.sentence
       format.date "year" output.check
     }
   if$
-  new.block
+  new.sentence
   format.pages.page output
   new.block
   note output
   new.sentence
   format.url output
   format.annote output
+  format.doi output
   fin.entry
 }
 
@@ -1202,17 +1260,25 @@ FUNCTION {mastersthesis}
 
 FUNCTION {misc}
 { output.bibitem
-  format.authors output
-  title howpublished new.sentence.checkb
-  format.btitle output
-  howpublished new.block.checka
-  howpublished output
-  new.block
-  format.date output
-  new.block
-  note output
+  author output
   new.sentence
+  %%title howpublished new.sentence.checkb
+  format.btitle output
+  add.blank
+  %%howpublished new.block.checka
+  howpublished output
+  new.dblslash
+  publisher output
+  new.sentence
+  %%new.block
+  format.date output
+  new.sentence
+  %%new.block
+  %note output
+  %new.sentence
   format.url output
+  add.blank
+  format.request output
   format.annote output
   fin.entry
 }
@@ -1403,6 +1469,7 @@ FUNCTION {begin.bib}
   "\else\language\csname l@#1\endcsname\fi}"                  write$ newline$
   "\ifx\undefined\url\def\url#1{{\small #1}}\else\fi"                  write$ newline$
   "\ifx\undefined\BibUrl\def\BibUrl#1{\url{#1}}\else\fi"   write$ newline$
+  "\ifx\undefined\doi\def\doi#1{\href{http://dx.doi.org/#1}{doi: #1}}\else\fi"   write$ newline$
   "\ifx\undefined\BibAnnote\long\def\BibAnnote#1{}\else\fi"    write$ newline$
   "\ifx\undefined\BibEmph\def\BibEmph#1{\emph{#1}}\else\fi"    write$ newline$
   preamble$ empty$
